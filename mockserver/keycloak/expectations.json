@@ -1,0 +1,97 @@
+[
+  {
+    "id": "keycloak-token-client-credentials",
+    "priority": 10,
+    "httpRequest": {
+      "method": "POST",
+      "path": "/realms/pix/protocol/openid-connect/token",
+      "body": {
+        "type": "STRING",
+        "string": "grant_type=client_credentials",
+        "subString": true
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtZXJjaGFudC0xMjMiLCJpc3MiOiJodHRwOi8vbW9ja3NlcnZlci1rZXljbG9hazo4MDgwL3JlYWxtcy9waXgiLCJhdWQiOiJhY2NvdW50Iiwic2NvcGUiOiJwaXg6cGF5bWVudDp3cml0ZSBwaXg6cGF5bWVudDpyZWFkIHBpeDp3ZWJob29rOm1hbmFnZSIsImV4cCI6OTk5OTk5OTk5OX0.mock-signature",
+        "expires_in": 300,
+        "token_type": "Bearer",
+        "scope": "pix:payment:write pix:payment:read pix:webhook:manage"
+      }
+    }
+  },
+  {
+    "id": "keycloak-jwks",
+    "priority": 10,
+    "httpRequest": {
+      "method": "GET",
+      "path": "/realms/pix/protocol/openid-connect/certs"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "keys": [
+          {
+            "kid": "mock-key-id",
+            "kty": "RSA",
+            "alg": "RS256",
+            "use": "sig",
+            "n": "mock-modulus-base64",
+            "e": "AQAB"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "keycloak-openid-config",
+    "priority": 10,
+    "httpRequest": {
+      "method": "GET",
+      "path": "/realms/pix/.well-known/openid-configuration"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "issuer": "http://mockserver-keycloak:8080/realms/pix",
+        "authorization_endpoint": "http://mockserver-keycloak:8080/realms/pix/protocol/openid-connect/auth",
+        "token_endpoint": "http://mockserver-keycloak:8080/realms/pix/protocol/openid-connect/token",
+        "jwks_uri": "http://mockserver-keycloak:8080/realms/pix/protocol/openid-connect/certs",
+        "grant_types_supported": [
+          "authorization_code",
+          "client_credentials",
+          "refresh_token"
+        ],
+        "response_types_supported": [
+          "code"
+        ],
+        "subject_types_supported": [
+          "public"
+        ],
+        "id_token_signing_alg_values_supported": [
+          "RS256"
+        ],
+        "token_endpoint_auth_methods_supported": [
+          "client_secret_post",
+          "client_secret_basic"
+        ]
+      }
+    }
+  }
+]

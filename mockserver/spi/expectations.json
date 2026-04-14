@@ -1,0 +1,79 @@
+[
+  {
+    "id": "spi-post-pacs008-accepted",
+    "priority": 10,
+    "httpRequest": {
+      "method": "POST",
+      "path": "/api/v1/in/00000000/stream"
+    },
+    "httpResponse": {
+      "statusCode": 202,
+      "headers": {
+        "Content-Type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "messageId": "mock-msg-001",
+        "status": "ACCEPTED"
+      }
+    },
+    "timeToLive": {
+      "unlimited": true
+    },
+    "times": {
+      "unlimited": true
+    }
+  },
+  {
+    "id": "spi-get-pacs002-settled",
+    "priority": 10,
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/v1/out/00000000/stream/.*"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": [
+          "application/xml"
+        ],
+        "PI-ResourceId": [
+          "resource-mock-001"
+        ]
+      },
+      "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pacs.002.001.10\"><FIToFIPmtStsRpt><GrpHdr><MsgId>RESP-MOCK-001</MsgId><CreDtTm>2024-04-10T12:35:00</CreDtTm><NbOfTxs>1</NbOfTxs></GrpHdr><TxInfAndSts><TxSts>ACSC</TxSts><InstgAgt>12345678</InstgAgt></TxInfAndSts></FIToFIPmtStsRpt></Document>"
+    },
+    "timeToLive": {
+      "unlimited": true
+    },
+    "times": {
+      "unlimited": true
+    }
+  },
+  {
+    "id": "spi-post-webhook-callback",
+    "priority": 10,
+    "httpRequest": {
+      "method": "POST",
+      "path": "/pix/notificacao"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "received": true
+      }
+    },
+    "timeToLive": {
+      "unlimited": true
+    },
+    "times": {
+      "unlimited": true
+    }
+  }
+]

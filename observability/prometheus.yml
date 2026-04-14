@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: pix-payment-service
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ['pix-payment-service:8080']
+
+  - job_name: kafka
+    static_configs:
+      - targets: ['kafka:9101']

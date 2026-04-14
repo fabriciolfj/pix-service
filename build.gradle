@@ -14,6 +14,8 @@ dependencies {
     implementation 'io.quarkus:quarkus-flyway'
     implementation 'io.quarkus:quarkus-rest-client'
     implementation 'io.quarkus:quarkus-rest-jackson'
+    implementation 'io.quarkus:quarkus-hibernate-validator'
+    implementation 'io.quarkus:quarkus-hibernate-reactive-panache'
     implementation 'io.quarkus:quarkus-messaging-kafka'
     implementation 'io.quarkus:quarkus-smallrye-fault-tolerance'
     implementation 'io.quarkiverse.openapi.generator:quarkus-openapi-generator:2.16.0'
@@ -21,6 +23,15 @@ dependencies {
     implementation 'io.quarkus:quarkus-reactive-pg-client'
     implementation 'io.quarkus:quarkus-arc'
     implementation 'io.quarkus:quarkus-rest-client-jackson'
+    implementation 'org.mapstruct:mapstruct:1.6.3'
+    implementation 'io.quarkus:quarkus-jdbc-postgresql'
+
+
+    compileOnly 'org.projectlombok:lombok:1.18.38'
+
+    annotationProcessor 'org.projectlombok:lombok:1.18.38'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+
     testImplementation 'io.quarkus:quarkus-junit'
     testImplementation 'io.rest-assured:rest-assured'
 }

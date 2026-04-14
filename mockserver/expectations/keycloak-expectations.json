@@ -1,0 +1,65 @@
+[
+  {
+    "comment": "Keycloak - OIDC discovery endpoint (usado pelo Spring Security no startup)",
+    "httpRequest": {
+      "method": "GET",
+      "path": "/realms/pix/.well-known/openid-configuration"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": { "Content-Type": ["application/json"] },
+      "body": {
+        "issuer": "http://keycloak-mock:1080/realms/pix",
+        "authorization_endpoint": "http://keycloak-mock:1080/realms/pix/protocol/openid-connect/auth",
+        "token_endpoint": "http://keycloak-mock:1080/realms/pix/protocol/openid-connect/token",
+        "jwks_uri": "http://keycloak-mock:1080/realms/pix/protocol/openid-connect/certs",
+        "response_types_supported": ["code", "token"],
+        "subject_types_supported": ["public"],
+        "id_token_signing_alg_values_supported": ["RS256"]
+      }
+    },
+    "times": { "unlimited": true }
+  },
+  {
+    "comment": "Keycloak - JWKS endpoint (chaves públicas para validar JWT)",
+    "httpRequest": {
+      "method": "GET",
+      "path": "/realms/pix/protocol/openid-connect/certs"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": { "Content-Type": ["application/json"] },
+      "body": {
+        "keys": [
+          {
+            "kid": "mock-key-id",
+            "kty": "RSA",
+            "alg": "RS256",
+            "use": "sig",
+            "n": "mock-rsa-modulus-for-local-testing",
+            "e": "AQAB"
+          }
+        ]
+      }
+    },
+    "times": { "unlimited": true }
+  },
+  {
+    "comment": "Keycloak - token endpoint (client_credentials para servicos internos)",
+    "httpRequest": {
+      "method": "POST",
+      "path": "/realms/pix/protocol/openid-connect/token"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": { "Content-Type": ["application/json"] },
+      "body": {
+        "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtZXJjaGFudC0wMDEiLCJzY29wZSI6InBpeDpwYXltZW50OndyaXRlIHBpeDpwYXltZW50OnJlYWQgcGl4OndlYmhvb2s6bWFuYWdlIiwiaXNzIjoiaHR0cDovL2tleWNsb2FrLW1vY2s6MTA4MC9yZWFsbXMvcGl4IiwiZXhwIjo5OTk5OTk5OTk5fQ.mock-signature",
+        "token_type": "Bearer",
+        "expires_in": 300,
+        "scope": "pix:payment:write pix:payment:read pix:webhook:manage"
+      }
+    },
+    "times": { "unlimited": true }
+  }
+]

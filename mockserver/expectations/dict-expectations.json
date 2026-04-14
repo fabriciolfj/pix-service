@@ -1,0 +1,196 @@
+[
+  {
+    "comment": "DICT GET key - CPF valido",
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/v2/dict/key/52998224725"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": { "Content-Type": ["application/json"] },
+      "body": {
+        "key": "52998224725",
+        "keyType": "CPF",
+        "account": {
+          "participant": "00000000",
+          "branch": "0001",
+          "number": "123456",
+          "accountType": "CACC"
+        },
+        "owner": {
+          "type": "NATURAL_PERSON",
+          "taxIdNumber": "52998224725",
+          "name": "Fabricio Lopes"
+        },
+        "creationDate": "2021-01-01",
+        "keyOwnershipDate": "2021-01-01"
+      }
+    },
+    "times": { "unlimited": true }
+  },
+  {
+    "comment": "DICT GET key - CNPJ valido",
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/v2/dict/key/11222333000181"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": { "Content-Type": ["application/json"] },
+      "body": {
+        "key": "11222333000181",
+        "keyType": "CNPJ",
+        "account": {
+          "participant": "12345678",
+          "branch": "0001",
+          "number": "987654",
+          "accountType": "CACC"
+        },
+        "owner": {
+          "type": "LEGAL_PERSON",
+          "taxIdNumber": "11222333000181",
+          "name": "Empresa Exemplo SA"
+        },
+        "creationDate": "2021-06-01",
+        "keyOwnershipDate": "2021-06-01"
+      }
+    },
+    "times": { "unlimited": true }
+  },
+  {
+    "comment": "DICT GET key - EMAIL valido",
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/v2/dict/key/fabricio@empresa.com.br"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": { "Content-Type": ["application/json"] },
+      "body": {
+        "key": "fabricio@empresa.com.br",
+        "keyType": "EMAIL",
+        "account": {
+          "participant": "12345678",
+          "branch": "0001",
+          "number": "112233",
+          "accountType": "CACC"
+        },
+        "owner": {
+          "type": "NATURAL_PERSON",
+          "taxIdNumber": "52998224725",
+          "name": "Fabricio Lopes"
+        },
+        "creationDate": "2022-01-01",
+        "keyOwnershipDate": "2022-01-01"
+      }
+    },
+    "times": { "unlimited": true }
+  },
+  {
+    "comment": "DICT GET key - Telefone valido",
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/v2/dict/key/+5516999887766"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": { "Content-Type": ["application/json"] },
+      "body": {
+        "key": "+5516999887766",
+        "keyType": "PHONE",
+        "account": {
+          "participant": "00000000",
+          "branch": "0001",
+          "number": "556677",
+          "accountType": "SVGS"
+        },
+        "owner": {
+          "type": "NATURAL_PERSON",
+          "taxIdNumber": "98765432100",
+          "name": "Maria Silva"
+        },
+        "creationDate": "2023-03-01",
+        "keyOwnershipDate": "2023-03-01"
+      }
+    },
+    "times": { "unlimited": true }
+  },
+  {
+    "comment": "DICT GET key - EVP valido",
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/v2/dict/key/550e8400-e29b-41d4-a716-446655440000"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": { "Content-Type": ["application/json"] },
+      "body": {
+        "key": "550e8400-e29b-41d4-a716-446655440000",
+        "keyType": "EVP",
+        "account": {
+          "participant": "87654321",
+          "branch": "0002",
+          "number": "334455",
+          "accountType": "CACC"
+        },
+        "owner": {
+          "type": "NATURAL_PERSON",
+          "taxIdNumber": "11144477735",
+          "name": "João Costa"
+        },
+        "creationDate": "2023-07-15",
+        "keyOwnershipDate": "2023-07-15"
+      }
+    },
+    "times": { "unlimited": true }
+  },
+  {
+    "comment": "DICT GET key - Chave nao encontrada (404)",
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/v2/dict/key/99999999999"
+    },
+    "httpResponse": {
+      "statusCode": 404,
+      "headers": { "Content-Type": ["application/json"] },
+      "body": {
+        "type": "https://dict.pi.rsfn.net.br/api/v2/error/EntryNotFound",
+        "title": "Entry not found",
+        "status": 404,
+        "detail": "No entry was found for the given key 99999999999"
+      }
+    },
+    "times": { "unlimited": true }
+  },
+  {
+    "comment": "DICT POST key - Registro de chave",
+    "httpRequest": {
+      "method": "POST",
+      "path": "/api/v2/dict/key"
+    },
+    "httpResponse": {
+      "statusCode": 201,
+      "headers": { "Content-Type": ["application/json"] },
+      "body": {
+        "requestId": "RQ-20240101-001",
+        "status": "OWNED",
+        "key": "{{request.body.$.key}}"
+      }
+    },
+    "times": { "unlimited": true }
+  },
+  {
+    "comment": "DICT DELETE key",
+    "httpRequest": {
+      "method": "DELETE",
+      "path": "/api/v2/dict/key/.*",
+      "pathType": "REGEX"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": { "Content-Type": ["application/json"] },
+      "body": { "requestId": "RQ-DEL-001" }
+    },
+    "times": { "unlimited": true }
+  }
+]

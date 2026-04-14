@@ -1,0 +1,36 @@
+{
+  "realm": "pix",
+  "enabled": true,
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "clients": [
+    {
+      "clientId": "pix-client",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "pix-secret",
+      "serviceAccountsEnabled": true,
+      "publicClient": false,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "protocol": "openid-connect",
+      "attributes": {},
+      "defaultClientScopes": ["profile", "email"],
+      "optionalClientScopes": []
+    }
+  ],
+  "users": [
+    {
+      "username": "service-account-pix-client",
+      "enabled": true,
+      "serviceAccountClientId": "pix-client",
+      "credentials": []
+    }
+  ],
+  "roles": {
+    "realm": [
+      { "name": "pix-merchant", "description": "Merchant que recebe Pix" },
+      { "name": "pix-admin",    "description": "Administrador do sistema Pix" }
+    ]
+  }
+}

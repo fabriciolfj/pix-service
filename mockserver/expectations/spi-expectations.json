@@ -1,0 +1,74 @@
+[
+  {
+    "comment": "SPI - Envia mensagem ISO 20022 (pagamento) - resposta aceita",
+    "httpRequest": {
+      "method": "POST",
+      "path": "/api/v1/pix/payments"
+    },
+    "httpResponse": {
+      "statusCode": 202,
+      "headers": { "Content-Type": ["application/json"] },
+      "body": {
+        "endToEndId": "E00000000{{request.body.$.endToEndId}}",
+        "status": "ACCP",
+        "timestamp": "2024-04-10T12:00:00Z"
+      }
+    },
+    "times": { "unlimited": true }
+  },
+  {
+    "comment": "SPI - Consulta status de transação - LIQUIDADA",
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/v1/pix/payments/.*",
+      "pathType": "REGEX"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": { "Content-Type": ["application/json"] },
+      "body": {
+        "endToEndId": "E00000000202404101200009ABCDE1234",
+        "status": "ACSC",
+        "amount": 100.00,
+        "settledAt": "2024-04-10T12:00:05Z"
+      }
+    },
+    "times": { "unlimited": true }
+  },
+  {
+    "comment": "Merchant webhook receiver - simula o endpoint do merchant recebendo notificacao",
+    "httpRequest": {
+      "method": "POST",
+      "path": "/pix/notificacao"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "delay": { "timeUnit": "MILLISECONDS", "value": 150 }
+    },
+    "times": { "unlimited": true }
+  },
+  {
+    "comment": "Merchant webhook - simula timeout (para testar retry)",
+    "httpRequest": {
+      "method": "POST",
+      "path": "/pix/notificacao/timeout"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "delay": { "timeUnit": "SECONDS", "value": 15 }
+    },
+    "times": { "unlimited": true }
+  },
+  {
+    "comment": "Merchant webhook - simula falha 500 (para testar backoff)",
+    "httpRequest": {
+      "method": "POST",
+      "path": "/pix/notificacao/error"
+    },
+    "httpResponse": {
+      "statusCode": 500,
+      "body": "Internal Server Error"
+    },
+    "times": { "unlimited": true }
+  }
+]

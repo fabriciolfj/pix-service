@@ -1,0 +1,231 @@
+[
+  {
+    "id": "dict-get-cpf-key",
+    "priority": 10,
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/v2/dict/key/52998224725"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "key": "52998224725",
+        "keyType": "CPF",
+        "account": {
+          "participant": "60701190",
+          "branch": "0001",
+          "number": "123456",
+          "accountType": "CACC"
+        },
+        "owner": {
+          "type": "NATURAL_PERSON",
+          "taxIdNumber": "52998224725",
+          "name": "João da Silva"
+        },
+        "creationDate": "2021-01-01",
+        "keyOwnershipDate": "2021-01-01"
+      }
+    }
+  },
+  {
+    "id": "dict-get-cnpj-key",
+    "priority": 10,
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/v2/dict/key/11222333000181"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "key": "11222333000181",
+        "keyType": "CNPJ",
+        "account": {
+          "participant": "12345678",
+          "branch": "0001",
+          "number": "999888",
+          "accountType": "CACC"
+        },
+        "owner": {
+          "type": "LEGAL_PERSON",
+          "taxIdNumber": "11222333000181",
+          "name": "Empresa Recebedora SA"
+        },
+        "creationDate": "2021-06-15",
+        "keyOwnershipDate": "2021-06-15"
+      }
+    }
+  },
+  {
+    "id": "dict-get-email-key",
+    "priority": 10,
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/v2/dict/key/pagador@email.com"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "key": "pagador@email.com",
+        "keyType": "EMAIL",
+        "account": {
+          "participant": "60701190",
+          "branch": "0002",
+          "number": "987654",
+          "accountType": "SVGS"
+        },
+        "owner": {
+          "type": "NATURAL_PERSON",
+          "taxIdNumber": "98765432100",
+          "name": "Maria Oliveira"
+        },
+        "creationDate": "2022-03-10",
+        "keyOwnershipDate": "2022-03-10"
+      }
+    }
+  },
+  {
+    "id": "dict-get-phone-key",
+    "priority": 10,
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/v2/dict/key/+5511987654321"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "key": "+5511987654321",
+        "keyType": "PHONE",
+        "account": {
+          "participant": "00000000",
+          "branch": "0001",
+          "number": "112233",
+          "accountType": "CACC"
+        },
+        "owner": {
+          "type": "NATURAL_PERSON",
+          "taxIdNumber": "11122233344",
+          "name": "Carlos Souza"
+        },
+        "creationDate": "2023-01-20",
+        "keyOwnershipDate": "2023-01-20"
+      }
+    }
+  },
+  {
+    "id": "dict-get-evp-key",
+    "priority": 10,
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/v2/dict/key/550e8400-e29b-41d4-a716-446655440000"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "key": "550e8400-e29b-41d4-a716-446655440000",
+        "keyType": "EVP",
+        "account": {
+          "participant": "33333333",
+          "branch": "0003",
+          "number": "334455",
+          "accountType": "CACC"
+        },
+        "owner": {
+          "type": "NATURAL_PERSON",
+          "taxIdNumber": "44455566677",
+          "name": "Ana Lima"
+        },
+        "creationDate": "2023-07-01",
+        "keyOwnershipDate": "2023-07-01"
+      }
+    }
+  },
+  {
+    "id": "dict-get-key-not-found",
+    "priority": 5,
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/v2/dict/key/.*"
+    },
+    "httpResponse": {
+      "statusCode": 404,
+      "headers": {
+        "Content-Type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "type": "NOT_FOUND",
+        "title": "Chave não encontrada",
+        "detail": "A chave informada não está cadastrada no DICT.",
+        "violacoes": []
+      }
+    }
+  },
+  {
+    "id": "dict-post-key",
+    "priority": 10,
+    "httpRequest": {
+      "method": "POST",
+      "path": "/api/v2/dict/key"
+    },
+    "httpResponse": {
+      "statusCode": 201,
+      "headers": {
+        "Content-Type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "key": "nova-chave-registrada",
+        "keyType": "CPF",
+        "status": "OWNED",
+        "creationDate": "2024-01-01"
+      }
+    }
+  },
+  {
+    "id": "dict-delete-key",
+    "priority": 10,
+    "httpRequest": {
+      "method": "DELETE",
+      "path": "/api/v2/dict/key/.*"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "key": "chave-removida",
+        "deletionReason": "USER_REQUESTED"
+      }
+    }
+  }
+]
