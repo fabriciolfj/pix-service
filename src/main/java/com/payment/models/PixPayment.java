@@ -46,6 +46,10 @@ public class PixPayment {
                 .build();
     }
 
+    public String getReceiveKey() {
+        return this.receiverKey.getKey();
+    }
+
     public PixPayment toProcessing() {
         validateTransition(PixStatus.PROCESSING);
         return toBuilder().status(PixStatus.PROCESSING).updatedAt(Instant.now()).build();
@@ -71,6 +75,21 @@ public class PixPayment {
 
     public boolean isCompleted() {
         return this.status == PixStatus.SETTLED || this.status == PixStatus.REJECTED;
+    }
+
+    public PixPayment validateSameOwnerTransfer() {
+        String payerDoc    = payerKey.getOwnerDocument();
+        String receiverDoc = receiverKey.getOwnerDocument();
+        String payerIspb   = payerKey.getBankIspb();
+        String receiverIspb = receiverKey.getBankIspb();
+
+        if (payerDoc != null && payerDoc.equals(receiverDoc)
+                && payerIspb != null && payerIspb.equals(receiverIspb)) {
+            throw new PixBusinessException("PIX_005",
+                    "Não é permitido transferir para si mesmo na mesma instituição.");
+        }
+
+        return this;
     }
 
     private void validateTransition(PixStatus target) {

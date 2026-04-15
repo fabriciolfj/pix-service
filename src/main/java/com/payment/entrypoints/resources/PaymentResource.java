@@ -1,10 +1,9 @@
 package com.payment.entrypoints.resources;
 
 import com.payment.entrypoints.dtos.request.CreatePixPaymentRequest;
-import com.payment.entrypoints.dtos.response.PixPaymentResponse;
 import com.payment.entrypoints.mappers.PixPaymentResourceMapper;
 import com.payment.exceptions.mapper.ErrorResponseMapper;
-import com.payment.usecases.CreatePaymentUseCase;
+import com.payment.usecases.create.CreatePaymentUseCase;
 import io.smallrye.mutiny.Uni;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.POST;
@@ -30,7 +29,7 @@ public class PaymentResource {
         return Uni.createFrom().item(request)
                 .map(mapper::toEntity)
                 .call(useCase::execute)
-                .invoke(pix -> log.info("pix created {}", pix))
+                .invoke(pix -> log.info("pix created {}", pix.getId()))
                 .map(mapper::toResponse)
                 .map(response -> Response.status(Response.Status.ACCEPTED)
                         .entity(response)

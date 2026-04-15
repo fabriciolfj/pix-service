@@ -3,9 +3,7 @@ package com.payment.models;
 import lombok.Builder;
 import lombok.Getter;
 
-/**
- * Value Object que representa uma chave Pix.
- */
+
 @Getter
 @Builder
 public class PixKey {
