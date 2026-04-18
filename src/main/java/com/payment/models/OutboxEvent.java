@@ -12,7 +12,6 @@ public class OutboxEvent {
 
     private UUID id;
     private String aggregateId;
-    private String aggregateType;
     private String eventType;
     private String payload;
     private String topic;
@@ -20,14 +19,6 @@ public class OutboxEvent {
     private Instant createdAt;
     private Instant processedAt;
     private int retryCount;
-
-    public static OutboxEvent create(String aggregateId, String aggregateType,
-                                     String eventType, String payload, String topic) {
-        return OutboxEvent.builder()
-                .id(UUID.randomUUID()).aggregateId(aggregateId).aggregateType(aggregateType)
-                .eventType(eventType).payload(payload).topic(topic)
-                .status(OutboxStatus.PENDING).createdAt(Instant.now()).retryCount(0).build();
-    }
 
     public OutboxEvent markPublished() {
         return toBuilder().status(OutboxStatus.PUBLISHED).processedAt(Instant.now()).build();

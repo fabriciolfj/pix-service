@@ -1,4 +1,4 @@
-package com.payment.adapters;
+package com.payment.adapters.dict;
 
 import com.payment.clients.dict.DicKeyResponseMapper;
 import com.payment.clients.dict.DictClient;

@@ -10,10 +10,14 @@ public class CreatePaymentUseCase {
 
     private DictGateway dictGateway;
     private PixValidationUseCase pixValidationUseCase;
+    private CreatePaymentGateway createPaymentGateway;
 
-    public CreatePaymentUseCase(final DictGateway dictGateway, final PixValidationUseCase pixValidationUseCase) {
+    public CreatePaymentUseCase(final DictGateway dictGateway,
+                                final PixValidationUseCase pixValidationUseCase,
+                                final CreatePaymentGateway createPaymentGateway) {
         this.dictGateway = dictGateway;
         this.pixValidationUseCase = pixValidationUseCase;
+        this.createPaymentGateway = createPaymentGateway;
     }
 
     public Uni<PixPayment> execute(final PixPayment payment) {
@@ -22,6 +26,7 @@ public class CreatePaymentUseCase {
                 .map(pixKey -> payment.toBuilder()
                         .payerKey(pixKey)
                         .build())
-                .flatMap(pixValidationUseCase::execute);
+                .flatMap(pixValidationUseCase::execute)
+                .flatMap(createPaymentGateway::process);
     }
 }

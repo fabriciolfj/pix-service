@@ -37,7 +37,8 @@ public class PaymentResource {
                 .onFailure()
                 .recoverWithItem(e -> Response
                         .status(Response.Status.BAD_REQUEST)
-                        .entity(ErrorResponseMapper.toError(e.getMessage()))
+                        .entity(ErrorResponseMapper
+                                .toError(e.getMessage() == null ? e.fillInStackTrace().toString() : e.getMessage()))
                         .build());
     }
 }
