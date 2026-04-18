@@ -2,6 +2,7 @@ package com.payment.entrypoints.resources;
 
 import com.payment.entrypoints.dtos.request.CreatePixPaymentRequest;
 import com.payment.entrypoints.mappers.PixPaymentResourceMapper;
+import com.payment.exceptions.ApplicationException;
 import com.payment.exceptions.mapper.ErrorResponseMapper;
 import com.payment.usecases.create.CreatePaymentUseCase;
 import io.smallrye.mutiny.Uni;
@@ -33,12 +34,6 @@ public class PaymentResource {
                 .map(mapper::toResponse)
                 .map(response -> Response.status(Response.Status.ACCEPTED)
                         .entity(response)
-                        .build())
-                .onFailure()
-                .recoverWithItem(e -> Response
-                        .status(Response.Status.BAD_REQUEST)
-                        .entity(ErrorResponseMapper
-                                .toError(e.getMessage() == null ? e.fillInStackTrace().toString() : e.getMessage()))
                         .build());
     }
 }

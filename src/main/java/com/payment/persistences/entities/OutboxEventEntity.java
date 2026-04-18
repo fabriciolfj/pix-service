@@ -12,8 +12,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.Instant;
 import java.util.UUID;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,7 +23,7 @@ import java.util.UUID;
 public class OutboxEventEntity extends PanacheEntityBase {
 
     @Id
-    private UUID id;
+    private UUID code;
 
     @Column(name = "aggregate_id")
     private String aggregateId;
