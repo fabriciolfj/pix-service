@@ -39,9 +39,9 @@ public class CreatePaymentAdapter implements CreatePaymentGateway {
         return Uni.createFrom().item(payment)
                 .onItem()
                 .transform(PixPaymentEntityMapper::toEntity)
-                .flatMap(entity -> entity.persistAndFlush())
+                .flatMap(PanacheEntityBase::persistAndFlush)
                 .map(obj -> (PixPaymentEntity) obj)
-                .invoke(entity -> log.info("payment save success {}", entity.getCode()))
+                .invoke(entity -> log.info("payment save success {}", entity.getId()))
                 .map(_ -> OutboxEvent.create(
                             payment.getId().toString(), TYPE_AGGREGATE, topic,
                             getJsonPayload(payment),

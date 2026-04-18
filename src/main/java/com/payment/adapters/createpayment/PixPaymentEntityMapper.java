@@ -9,7 +9,7 @@ public class PixPaymentEntityMapper {
 
     public static PixPaymentEntity toEntity(final PixPayment domain) {
         return PixPaymentEntity.builder()
-                .code(domain.getId())
+                .id(domain.getId())
                 .endToEndId(domain.getEndToEndId())
                 .payerKey(domain.getPayerKey().getKey())
                 .payerKeyType(domain.getPayerKey().getKeyType().name())

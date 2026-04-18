@@ -1,6 +1,5 @@
 package com.payment.persistences.entities;
 
-import io.quarkus.hibernate.reactive.panache.PanacheEntity;
 import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,7 +22,7 @@ import java.util.UUID;
 public class PixPaymentEntity extends PanacheEntityBase {
 
     @Id
-    private UUID code;
+    private UUID id;
 
     @Column(name = "end_to_end_id")
     private String endToEndId;

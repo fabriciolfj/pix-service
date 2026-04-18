@@ -1,6 +1,7 @@
 package com.payment.adapters.outbox;
 
 import com.payment.models.OutboxEvent;
+import com.payment.persistences.entities.OutboxEventEntity;
 import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -14,7 +15,7 @@ public class OutBoxEventAdapter {
         return Uni.createFrom().item(outboxEvent)
                 .map(OutBoxEventEntityMapper::toEntity)
                 .flatMap(PanacheEntityBase::persistAndFlush)
-                .map(entity -> (OutboxEvent) entity)
+                .map(entity -> (OutboxEventEntity) entity)
                 .invoke(entity -> log.info("outbox event save success {}", entity.getAggregateId()))
                 .replaceWithVoid();
     }

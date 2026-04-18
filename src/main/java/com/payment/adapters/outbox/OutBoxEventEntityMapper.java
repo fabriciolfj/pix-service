@@ -9,8 +9,9 @@ public class OutBoxEventEntityMapper {
 
     public static OutboxEventEntity toEntity(final OutboxEvent domain) {
         return OutboxEventEntity.builder()
-                .code(domain.getId())
+                .id(domain.getId())
                 .aggregateId(domain.getAggregateId())
+                .aggregateType(domain.getAggregateType())
                 .eventType(domain.getEventType())
                 .payload(domain.getPayload())
                 .topic(domain.getTopic())

@@ -23,7 +23,7 @@ import java.util.UUID;
 public class OutboxEventEntity extends PanacheEntityBase {
 
     @Id
-    private UUID code;
+    private UUID id;
 
     @Column(name = "aggregate_id")
     private String aggregateId;
