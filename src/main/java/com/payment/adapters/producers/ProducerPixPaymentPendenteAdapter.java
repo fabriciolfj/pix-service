@@ -2,8 +2,7 @@ package com.payment.adapters.producers;
 
 import com.payment.adapters.getpayment.FindPixPaymentAdapter;
 import com.payment.models.OutboxEvent;
-import com.payment.persistences.entities.OutboxEventEntity;
-import io.quarkus.hibernate.reactive.panache.common.WithTransaction;
+import io.quarkus.hibernate.reactive.panache.common.WithSession;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -19,10 +18,10 @@ public class ProducerPixPaymentPendenteAdapter {
 
     @Inject
     @Channel("processing-payment-out")
-    private Emitter<String> emitter;
+    Emitter<String> emitter;
     private final FindPixPaymentAdapter findPixPaymentAdapter;
 
-    @WithTransaction
+    @WithSession
     public Uni<Void> process() {
         return findPixPaymentAdapter
                 .getByStatus(OutboxEvent.OutboxStatus.PENDING.name())
