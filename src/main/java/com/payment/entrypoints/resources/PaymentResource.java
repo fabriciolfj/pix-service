@@ -5,6 +5,7 @@ import com.payment.entrypoints.mappers.PixPaymentResourceMapper;
 import com.payment.exceptions.ApplicationException;
 import com.payment.exceptions.mapper.ErrorResponseMapper;
 import com.payment.usecases.create.CreatePaymentUseCase;
+import com.payment.usecases.processingpix.ProducerPixPaymentPendenteGateway;
 import io.smallrye.mutiny.Uni;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.POST;
@@ -19,10 +20,14 @@ public class PaymentResource {
 
     private final CreatePaymentUseCase useCase;
     private final PixPaymentResourceMapper mapper;
+    private final ProducerPixPaymentPendenteGateway producerPixPaymentPendenteGateway;
 
-    public PaymentResource(final CreatePaymentUseCase useCase, PixPaymentResourceMapper mapper) {
+    public PaymentResource(final CreatePaymentUseCase useCase,
+                           final PixPaymentResourceMapper mapper,
+                           final ProducerPixPaymentPendenteGateway producerPixPaymentPendenteGateway) {
         this.useCase = useCase;
         this.mapper = mapper;
+        this.producerPixPaymentPendenteGateway = producerPixPaymentPendenteGateway;
     }
 
     @POST
@@ -35,5 +40,12 @@ public class PaymentResource {
                 .map(response -> Response.status(Response.Status.ACCEPTED)
                         .entity(response)
                         .build());
+    }
+
+    @POST
+    @Path("/processing")
+    public Uni<Response> initProcessPayment() {
+        return producerPixPaymentPendenteGateway.process()
+                .map(_ -> Response.accepted().build());
     }
 }
