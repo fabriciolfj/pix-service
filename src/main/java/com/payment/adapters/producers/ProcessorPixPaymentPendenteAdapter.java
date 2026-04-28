@@ -5,7 +5,6 @@ import com.payment.models.OutboxEvent;
 import com.payment.persistences.entities.OutboxEventEntity;
 import com.payment.usecases.processingpix.ProducerPixPaymentPendenteGateway;
 import io.quarkus.hibernate.reactive.panache.common.WithTransaction;
-import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -30,14 +29,27 @@ public class ProcessorPixPaymentPendenteAdapter implements ProducerPixPaymentPen
                 .getByStatus(OutboxEvent.OutboxStatus.PENDING.name())
                 .invoke(item -> log.info("outbox found {}", item.getId()))
                 .onItem()
-                .invoke(v -> emitter.send(v.getPayload()))
-                .onItem()
-                .transformToUniAndConcatenate(outboxEvent -> {
-                    outboxEvent.setStatus(OutboxEvent.OutboxStatus.PUBLISHED.name());
-                    return outboxEvent.<OutboxEventEntity>persistAndFlush()
-                            .replaceWithVoid();
-                })
+                .transformToUniAndConcatenate(this::sendEvent)
                 .collect().asList()
                 .replaceWithVoid();
+    }
+
+    private Uni<Void> sendEvent(OutboxEventEntity outboxEvent) {
+        return Uni.createFrom()
+                .item(outboxEvent)
+                .invoke(v -> emitter.send(v.getPayload()))
+                .flatMap(v -> {
+                    v.setStatus(OutboxEvent.OutboxStatus.PUBLISHED.name());
+                    return v.<OutboxEventEntity>persistAndFlush()
+                            .replaceWithVoid();
+                })
+                .onFailure().recoverWithUni(ex -> {
+                    log.error("falha ao processar outbox id={}: {}",
+                            outboxEvent.getId(), ex.getMessage());
+                    outboxEvent.setStatus(OutboxEvent.OutboxStatus.FAILED.name());
+                    outboxEvent.setRetryCount(outboxEvent.getRetryCount() + 1);
+                    return outboxEvent.<OutboxEventEntity>persistAndFlush()
+                            .replaceWithVoid();
+                });
     }
 }
